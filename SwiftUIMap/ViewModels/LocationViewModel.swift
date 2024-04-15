@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 
+@MainActor
 class LocationViewModel: ObservableObject {
     
     // All loaded loacations
@@ -52,9 +53,11 @@ class LocationViewModel: ObservableObject {
     }
     
     func snowNextLocation(location: Location) {
-        withAnimation(.easeInOut) {
-            mapLocation = location
-            showLocationList = false
+        DispatchQueue.main.async { [self] in
+            withAnimation(.easeInOut) {
+                mapLocation = location
+                showLocationList = false
+            }
         }
     }
     
